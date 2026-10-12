@@ -8,151 +8,60 @@
     <!-- Favicon for browser tab -->
     <link rel="icon" type="image/png" href="https://i.imgur.com/TcCQCER.png">
     <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/TcCQCER.png">
-    
-    <!-- For Apple devices -->
     <link rel="apple-touch-icon" href="https://i.imgur.com/TcCQCER.png">
-    
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+            width: 100%; height: 100%; overflow: hidden;
             background: #f4f5fb;
             font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
-        
-        /* Minimal loading spinner */
         .loading-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #f4f5fb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: opacity 0.3s ease;
+            position: fixed; inset: 0; background: #f4f5fb;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000; transition: opacity 0.3s ease;
         }
-        
-        .loading-container.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
+        .loading-container.hidden { opacity: 0; pointer-events: none; }
         .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #dde0f0;
-            border-top-color: #222689;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            width: 40px; height: 40px;
+            border: 3px solid #dde0f0; border-top-color: #1c7d38;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        #gas-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-        
-        /* Error message */
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #gas-iframe { width: 100%; height: 100%; border: none; display: block; }
         .error-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            text-align: center;
-            max-width: 90%;
-            width: 320px;
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; border-radius: 12px; padding: 24px;
+            text-align: center; max-width: 90%; width: 320px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            border: 1px solid #f5c2c2;
-            display: none;
-            z-index: 10001;
+            border: 1px solid #f5c2c2; display: none; z-index: 10001;
         }
-        
-        .error-message.show {
-            display: block;
-        }
-
-        /* Close (x) button */
+        .error-message.show { display: block; }
         .close-button {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            background: transparent;
-            border: none;
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #7b7fa8;
-            cursor: pointer;
-            line-height: 1;
-            padding: 4px 8px;
-            border-radius: 50%;
+            position: absolute; top: 10px; right: 12px;
+            background: transparent; border: none; font-size: 1.25rem;
+            font-weight: bold; color: #7b7fa8; cursor: pointer;
+            line-height: 1; padding: 4px 8px; border-radius: 50%;
             transition: color 0.2s ease, background 0.2s ease;
         }
-
-        .close-button:hover {
-            color: #333;
-            background: #f0f1f7;
-        }
-        
-        .error-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-        
-        .error-title {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #c0392b;
-            margin-bottom: 8px;
-        }
-        
-        .error-text {
-            font-size: 0.75rem;
-            color: #7b7fa8;
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-        
+        .close-button:hover { color: #333; background: #f0f1f7; }
+        .error-icon { font-size: 48px; margin-bottom: 12px; }
+        .error-title { font-size: 1rem; font-weight: 800; color: #c0392b; margin-bottom: 8px; }
+        .error-text { font-size: 0.75rem; color: #7b7fa8; margin-bottom: 16px; line-height: 1.5; }
         .error-button {
-            background: #222689;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-family: inherit;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.75rem;
+            background: #1c7d38; color: white; border: none;
+            padding: 10px 20px; border-radius: 8px;
+            font-family: inherit; font-weight: 700; cursor: pointer; font-size: 0.75rem;
         }
-        
-        .error-button:hover {
-            background: #1a1d6e;
-        }
+        .error-button:hover { background: #155e2a; }
     </style>
 </head>
-<body>    
-    <!-- Minimal loading spinner -->
+<body>
     <div class="loading-container" id="loadingContainer">
         <div class="loading-spinner"></div>
     </div>
-    
+
     <div class="error-message" id="errorMessage">
         <button class="close-button" id="closeErrorModal" aria-label="Close error modal">&times;</button>
         <div class="error-icon">⚠️</div>
@@ -162,138 +71,423 @@
         </div>
         <button class="error-button" onclick="location.reload()">Retry</button>
     </div>
-    
+
     <iframe id="gas-iframe" src="about:blank" allow="geolocation; clipboard-read; clipboard-write"></iframe>
 
     <script>
-        // ⚠️ IMPORTANT: Replace this with your actual Google Apps Script Web App URL
+        // ============================================================
+        // Inner SPARC — Agent Portal wrapper (ROLE-PREFIXED CLEAN URLS)
+        //
+        // Public URL forms on Vercel/GitHub Pages:
+        //   AGENT
+        //     /agent                 → agent home (flipbook)
+        //     /agent/profile         → agent profile
+        //     /agent/apply           → agent apply
+        //     /agent/documents       → agent documents
+        //     /agent/faqs            → agent faqs
+        //     /agent/salesactivity   → agent sales activity
+        //
+        //   ADMIN
+        //     /admin                 → admin dashboard
+        //     /admin/dashboard       → admin dashboard
+        //     /admin/documents       → admin documents
+        //     /admin/certificates    → admin certificates
+        //
+        // LEGACY SLUGS (still supported, auto-redirected where unambiguous):
+        //   /profile /apply /documents /faqs /sales /salesactivity
+        //   /dashboard /admin /certificates
+        //
+        // The wrapper doesn't enforce role — the GAS app does.
+        // ============================================================
+
         const GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyixL-mBZMWWyQ-rQbzCWT6FWG9NSPTC9SG-SF4xkjbWfp61qHare1Tb9LrIhyxt4cd/exec';
-        
+
+        // ────────────────────────────────────────────────────────────
+        // ROUTING VOCABULARY — AGENT PORTAL
+        // ────────────────────────────────────────────────────────────
+
+        // Internal page names the GAS app understands.
+        // Note: 'sales' is the internal name; public slug is 'salesactivity'.
+        const ROUTABLE = [
+            'home', 'profile', 'apply', 'documents', 'faqs', 'sales',
+            'admin', 'certificates'
+        ];
+
+        // Which pages belong to which role.
+        const ROLE_PAGES = {
+            agent: ['home', 'profile', 'apply', 'documents', 'faqs', 'sales'],
+            admin: ['admin', 'documents', 'certificates']
+        };
+
+        // Page → public slug under a role prefix.
+        const PAGE_TO_SLUG = {
+            home:         '',              // /agent
+            profile:      'profile',       // /agent/profile
+            apply:        'apply',         // /agent/apply
+            attendance:   'attendance',    // (not used in agent portal, kept for parity)
+            documents:    'documents',     // /agent/documents OR /admin/documents
+            faqs:         'faqs',          // /agent/faqs
+            sales:        'salesactivity', // /agent/salesactivity  ⭐ DIFFERENT SLUG
+            admin:        'dashboard',     // /admin/dashboard
+            certificates: 'certificates'   // /admin/certificates
+        };
+
+        // Legacy (un-prefixed) slug → internal page name.
+        const LEGACY_SLUG_TO_PAGE = {
+            'home':         'home',
+            'profile':      'profile',
+            'apply':        'apply',
+            'documents':    'documents',
+            'faqs':         'faqs',
+            'sales':        'sales',
+            'salesactivity':'sales',       // ⭐ new friendly slug
+            'dashboard':    'admin',
+            'admin':        'admin',
+            'certificates': 'certificates'
+        };
+
         const iframe = document.getElementById('gas-iframe');
         const errorMessage = document.getElementById('errorMessage');
         const errorText = document.getElementById('errorText');
         const loadingContainer = document.getElementById('loadingContainer');
         const closeErrorModal = document.getElementById('closeErrorModal');
-        
+
         let hasLoaded = false;
         let loadTimeout;
-        
-        // Function to hide error modal
-        function hideError() {
-            errorMessage.classList.remove('show');
+
+        // ------------------------------------------------------------
+        // Path ⇄ page translators (role-prefixed aware)
+        // ------------------------------------------------------------
+        function parsePathname(pathname) {
+            var clean = (pathname || '/').replace(/^\/+|\/+$/g, '').toLowerCase();
+            if (!clean || clean === 'index.html') {
+                return { role: null, page: 'home', legacy: true };
+            }
+
+            var parts = clean.split('/');
+            var first = parts[0];
+            var second = parts.slice(1).join('/');
+
+            // ── /agent/* ──
+            if (first === 'agent') {
+                if (!second) return { role: 'agent', page: 'home', legacy: false };
+                var agentSlugMap = {
+                    'home':          'home',
+                    'profile':       'profile',
+                    'apply':         'apply',
+                    'documents':     'documents',
+                    'faqs':          'faqs',
+                    'salesactivity': 'sales'   // ⭐ public slug → internal name
+                };
+                if (agentSlugMap[second]) {
+                    return { role: 'agent', page: agentSlugMap[second], legacy: false };
+                }
+                return { role: 'agent', page: 'home', legacy: false };
+            }
+
+            // ── /admin/* ──
+            if (first === 'admin') {
+                if (!second) return { role: 'admin', page: 'admin', legacy: false };
+                var adminSlugMap = {
+                    'dashboard':    'admin',
+                    'documents':    'documents',
+                    'certificates': 'certificates'
+                };
+                if (adminSlugMap[second]) {
+                    return { role: 'admin', page: adminSlugMap[second], legacy: false };
+                }
+                return { role: 'admin', page: 'admin', legacy: false };
+            }
+
+            // ── Legacy unprefixed ──
+            if (LEGACY_SLUG_TO_PAGE[first]) {
+                return { role: null, page: LEGACY_SLUG_TO_PAGE[first], legacy: true };
+            }
+
+            return { role: null, page: 'home', legacy: true };
         }
 
-        // Event listener for close button
-        closeErrorModal.addEventListener('click', hideError);
+        function pathnameToPage(pathname) {
+            return parsePathname(pathname).page;
+        }
 
-        // Optional: Allow pressing ESC to close modal
-        window.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape' && errorMessage.classList.contains('show')) {
-                hideError();
+        function pageToPathname(page, role) {
+            var p = (page || '').toString().trim().toLowerCase();
+            if (!p) p = 'home';
+
+            var slug = PAGE_TO_SLUG[p];
+            if (slug === undefined) slug = p;
+
+            if (role === 'agent' || role === 'admin') {
+                if (role === 'agent' && slug === '') return '/agent';
+                return '/' + role + (slug ? '/' + slug : '');
             }
+
+            // Legacy form (no role known)
+            if (p === 'home') return '/';
+            if (p === 'admin') return '/dashboard';
+            if (p === 'sales') return '/salesactivity';  // friendlier legacy
+            return '/' + slug;
+        }
+
+        // Freeze the initial URL before any rewrites
+        const INITIAL_PARSE = parsePathname(window.location.pathname);
+        const INITIAL_PAGE_FROM_URL = INITIAL_PARSE.page;
+        const INITIAL_ROLE_FROM_URL = INITIAL_PARSE.role;
+        const SHOULD_FORCE_HANDSHAKE =
+            INITIAL_PAGE_FROM_URL &&
+            INITIAL_PAGE_FROM_URL !== 'home';
+
+        console.log(
+            '[Agent Wrapper] Initial page:',
+            INITIAL_PAGE_FROM_URL,
+            '| role:',
+            INITIAL_ROLE_FROM_URL,
+            '| force handshake:',
+            SHOULD_FORCE_HANDSHAKE
+        );
+
+        // ------------------------------------------------------------
+        // Legacy-slug redirect
+        // ------------------------------------------------------------
+        (function migrateLegacyPaths() {
+            try {
+                var parsed = parsePathname(window.location.pathname);
+                if (!parsed.legacy) return;
+
+                var clean = (window.location.pathname || '/').replace(/^\/+|\/+$/g, '').toLowerCase();
+                if (!clean || clean === 'index.html') return;
+
+                // Unambiguous role slugs
+                var adminOnlyPages = ['admin', 'certificates'];
+                var agentOnlyPages = ['profile', 'apply', 'faqs', 'sales'];
+
+                var role = null;
+                if (adminOnlyPages.indexOf(parsed.page) !== -1) role = 'admin';
+                if (agentOnlyPages.indexOf(parsed.page) !== -1) role = 'agent';
+
+                // Shared pages (documents) — leave unprefixed; GAS resolves role.
+                if (!role) return;
+
+                var newPath = pageToPathname(parsed.page, role);
+                if (newPath === window.location.pathname) return;
+
+                window.history.replaceState(
+                    { page: parsed.page, role: role },
+                    '',
+                    newPath + window.location.search + window.location.hash
+                );
+            } catch (e) { /* ignore */ }
+        })();
+
+        // Legacy ?page=... query string
+        (function migrateLegacyQueryString() {
+            try {
+                var params = new URLSearchParams(window.location.search);
+                var legacy = params.get('page');
+                if (!legacy) return;
+
+                var internal = LEGACY_SLUG_TO_PAGE[legacy] || legacy;
+                var adminOnly = ['admin', 'certificates'];
+                var agentOnly = ['profile', 'apply', 'faqs', 'sales'];
+                var role = null;
+                if (adminOnly.indexOf(internal) !== -1) role = 'admin';
+                if (agentOnly.indexOf(internal) !== -1) role = 'agent';
+
+                var cleanPath = pageToPathname(internal, role);
+                params.delete('page');
+                var tail = params.toString();
+                var newUrl = cleanPath + (tail ? ('?' + tail) : '');
+                window.history.replaceState({ page: internal, role: role }, '', newUrl);
+            } catch (e) { /* ignore */ }
+        })();
+
+        // ------------------------------------------------------------
+        // Error modal helpers
+        // ------------------------------------------------------------
+        function hideError() { errorMessage.classList.remove('show'); }
+        closeErrorModal.addEventListener('click', hideError);
+        window.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && errorMessage.classList.contains('show')) hideError();
         });
 
-        // Function to show error
         function showError(message) {
             if (hasLoaded) return;
-            
             clearTimeout(loadTimeout);
             loadingContainer.classList.add('hidden');
             errorText.textContent = message || 'Unable to load the application. Please check your internet connection and try again.';
             errorMessage.classList.add('show');
         }
-        
-        // Function to handle successful load
+
         function onIframeLoad() {
             if (hasLoaded) return;
-            
             clearTimeout(loadTimeout);
             hasLoaded = true;
-            
-            // Hide loading spinner
             loadingContainer.classList.add('hidden');
-            setTimeout(() => {
-                loadingContainer.style.display = 'none';
-            }, 300);
+            setTimeout(() => { loadingContainer.style.display = 'none'; }, 300);
         }
-        
-        // Function to handle iframe errors
+
         function onIframeError() {
             if (hasLoaded) return;
             showError('Failed to load the application. The Google Apps Script web app might be unavailable or the URL is incorrect.');
         }
-        
-        // Build the full URL with preserved query parameters and hash
-        function buildIframeUrl() {
-            let url = GAS_WEBAPP_URL;
-            
-            // Preserve URL parameters from the wrapper URL
-            const params = new URLSearchParams(window.location.search);
-            const hash = window.location.hash;
-            
-            if (params.toString()) {
-                url += '?' + params.toString();
-            }
-            
-            if (hash) {
-                url += (params.toString() ? '&' : '?') + 'hash=' + encodeURIComponent(hash.substring(1));
-            }
-            
-            return url;
-        }
-        
-        // Set iframe source
-        const iframeUrl = buildIframeUrl();
-        iframe.src = iframeUrl;
-        
-        // Set timeout for loading (15 seconds max)
-        loadTimeout = setTimeout(() => {
-            if (!hasLoaded) {
-                showError('Loading timeout. The application is taking too long to respond. Please try again.');
-            }
-        }, 15000);
-        
-        // Attach iframe event listeners
+
         iframe.addEventListener('load', onIframeLoad);
         iframe.addEventListener('error', onIframeError);
-        
-        // Optional: Handle postMessage communication from the embedded app
-        window.addEventListener('message', function(event) {
-            // Verify origin for security (optional but recommended)
-            if (event.origin !== 'https://script.google.com') return;
-            
-            // Handle different message types from your Apps Script app
-            if (event.data && event.data.type) {
-                switch(event.data.type) {
-                    case 'navigate':
-                        // Update URL without reloading
-                        if (event.data.url && event.data.url !== window.location.pathname) {
-                            history.pushState(null, '', event.data.url);
-                        }
-                        break;
-                    case 'setTitle':
-                        if (event.data.title) {
-                            document.title = event.data.title;
-                        }
-                        break;
-                    case 'ready':
-                        console.log('Apps Script app is ready');
-                        break;
+
+        // ------------------------------------------------------------
+        // Build iframe src from current URL
+        // ------------------------------------------------------------
+        function buildIframeUrl() {
+            var page = pathnameToPage(window.location.pathname);
+            var url = new URL(GAS_WEBAPP_URL);
+            if (page && page !== 'home') url.searchParams.set('page', page);
+
+            var incoming = new URLSearchParams(window.location.search);
+            incoming.forEach(function (value, key) {
+                if (key === 'page') return;
+                url.searchParams.set(key, value);
+            });
+
+            return url.toString();
+        }
+
+        const iframeUrl = buildIframeUrl();
+        iframe.src = iframeUrl;
+
+        loadTimeout = setTimeout(() => {
+            if (!hasLoaded) showError('Loading timeout. The application is taking too long to respond. Please try again.');
+        }, 15000);
+
+        // ------------------------------------------------------------
+        // Buffer popstates before iframe is ready
+        // ------------------------------------------------------------
+        let iframeReady = false;
+        let pendingPage = null;
+
+        function isTrustedOrigin(origin) {
+            if (!origin || origin === 'null') return true;
+            return origin === 'https://script.google.com' ||
+                   origin === 'https://script.googleusercontent.com' ||
+                   origin.indexOf('.googleusercontent.com') !== -1 ||
+                   origin.indexOf('.google.com') !== -1;
+        }
+
+        // ------------------------------------------------------------
+        // Messages FROM the GAS app
+        // ------------------------------------------------------------
+        window.addEventListener('message', function (event) {
+            if (event.source === window) return;
+            if (!isTrustedOrigin(event.origin)) return;
+
+            const data = event.data;
+            if (!data || !data.type) return;
+
+            if (data.type === 'portfolio:navigate') {
+                const page = (data.page || 'home').toString();
+                const role = (data.role === 'agent' || data.role === 'admin') ? data.role : null;
+
+                const newPath = pageToPathname(page, role);
+
+                const url = new URL(window.location.href);
+                url.pathname = newPath;
+                url.searchParams.delete('page');
+
+                const target = url.pathname + (url.search || '') + url.hash;
+                const current = window.location.pathname + window.location.search + window.location.hash;
+
+                if (target !== current) {
+                    if (data.replace) {
+                        window.history.replaceState({ page: page, role: role }, '', target);
+                    } else {
+                        window.history.pushState({ page: page, role: role }, '', target);
+                    }
                 }
+
+                if (data.title) document.title = data.title;
+                return;
+            }
+
+            if (data.type === 'portfolio:section') {
+                const page = (data.page || 'home').toString();
+                const role = (data.role === 'agent' || data.role === 'admin') ? data.role : null;
+                const newPath = pageToPathname(page, role);
+
+                const url = new URL(window.location.href);
+                url.pathname = newPath;
+                url.searchParams.delete('page');
+
+                const target = url.pathname + (url.search || '') + url.hash;
+                const current = window.location.pathname + window.location.search + window.location.hash;
+
+                if (target !== current) {
+                    window.history.replaceState({ page: page, role: role }, '', target);
+                }
+                if (data.title) document.title = data.title;
+                return;
+            }
+
+            if (data.type === 'portfolio:setTitle') {
+                if (data.title) document.title = data.title;
+                return;
+            }
+
+            if (data.type === 'portfolio:ready') {
+                iframeReady = true;
+
+                const hasBuffered = (pendingPage !== null);
+                const shouldHandshake = hasBuffered || SHOULD_FORCE_HANDSHAKE;
+
+                if (!shouldHandshake) {
+                    console.log('[Agent Wrapper] portfolio:ready → no handshake (root load).');
+                    pendingPage = null;
+                    return;
+                }
+
+                let initial;
+                if (hasBuffered) initial = pendingPage;
+                else if (SHOULD_FORCE_HANDSHAKE) initial = INITIAL_PAGE_FROM_URL;
+                else initial = pathnameToPage(window.location.pathname);
+                pendingPage = null;
+
+                console.log('[Agent Wrapper] portfolio:ready → handshake page =', initial);
+
+                function relayReady(win, depth) {
+                    if (!win || depth > 6) return;
+                    try { win.postMessage({ type: 'portfolio:popstate', page: initial }, '*'); } catch (e) {}
+                    try {
+                        for (let i = 0; i < win.frames.length; i++) relayReady(win.frames[i], depth + 1);
+                    } catch (e) {}
+                }
+
+                relayReady(iframe.contentWindow, 0);
+                return;
             }
         });
-        
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', function() {
-            // Send message to iframe about URL change
-            iframe.contentWindow.postMessage({
-                type: 'popstate',
-                url: window.location.href
-            }, '*');
+
+        // ------------------------------------------------------------
+        // Browser Back/Forward → relay to iframe
+        // ------------------------------------------------------------
+        window.addEventListener('popstate', function () {
+            const page = pathnameToPage(window.location.pathname);
+
+            if (!iframeReady) {
+                pendingPage = page;
+                return;
+            }
+
+            function relay(win, depth) {
+                if (!win || depth > 6) return;
+                try { win.postMessage({ type: 'portfolio:popstate', page: page }, '*'); } catch (e) {}
+                try {
+                    for (let i = 0; i < win.frames.length; i++) relay(win.frames[i], depth + 1);
+                } catch (e) {}
+            }
+
+            relay(iframe.contentWindow, 0);
         });
-        
-        // Log successful setup (for debugging)
-        console.log('GitHub Pages wrapper loaded. Iframe URL:', iframeUrl);
+
+        console.log('Agent Portal wrapper loaded. Iframe URL:', iframeUrl);
     </script>
 </body>
 </html>
